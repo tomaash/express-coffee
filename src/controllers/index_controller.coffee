@@ -1,4 +1,5 @@
 # Just renders index.jade
 
 exports.index = (req, res) ->
-    res.render 'index'
+  res.send '<h1>Hello World!</h1>'
+#  res.render 'index'

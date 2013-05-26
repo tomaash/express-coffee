@@ -22,12 +22,12 @@ cleanDB = (done) ->
 
 describe 'Post', ->
   before cleanDB
-  
+
   post_id = null
-      
+
   it "should be created", (done) ->
     request(app)
-      .post("/posts/create")
+      .post("/posts")
       .send(POST_DATA)
       .expect 201, (err, res) ->
         res.body.should.include(POST_DATA)
@@ -35,16 +35,16 @@ describe 'Post', ->
         res.body["_id"].should.be.ok
         post_id = res.body["_id"]
         done()
-        
+
   it "should be accessible by id", (done) ->
     request(app)
-      .get("/posts/get/#{post_id}")
+      .get("/posts/#{post_id}")
       .expect 200, (err, res) ->
         res.body.should.include(POST_DATA)
         res.body.should.have.property "_id"
         res.body["_id"].should.be.eql post_id
         done()
-        
+
   it "should be listed in list", (done) ->
     request(app)
       .get("/posts")
@@ -53,30 +53,30 @@ describe 'Post', ->
         res.body.should.have.length 1
         res.body[0].should.include(POST_DATA)
         done()
-    
+
   it "should be updated", (done) ->
     request(app)
-      .post("/posts/update/#{post_id}")
+      .put("/posts/#{post_id}")
       .send(UPDATED_POST_DATA)
       .expect 200, (err, res) ->
         res.body.should.include(UPDATED_POST_DATA)
         done()
-        
+
   it "should be persisted after update", (done) ->
     request(app)
-      .get("/posts/get/#{post_id}")
+      .get("/posts/#{post_id}")
       .expect 200, (err, res) ->
         res.body.should.include(UPDATED_POST_DATA)
         res.body.should.have.property "_id"
         res.body["_id"].should.be.eql post_id
         done()
-  
+
   it "should be removed", (done) ->
     request(app)
-      .del("/posts/delete/#{post_id}")
+      .del("/posts/#{post_id}")
       .expect 200, (err, res) ->
         done()
-    
+
   it "should not be listed after remove", (done) ->
     request(app)
       .get("/posts")
@@ -84,6 +84,5 @@ describe 'Post', ->
         res.body.should.be.an.instanceof Array
         res.body.should.have.length 0
         done()
-        
+
   after cleanDB
-      
