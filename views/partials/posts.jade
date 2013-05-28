@@ -1,6 +1,21 @@
-h1 Listing posts
 .row
-  .span10
-  .post(ng-repeat='post in posts')
-    h3 {{post.title}}
-    p {{post.body}}
+  .span7
+    h1 Listing posts
+    .form.form-inline
+      input(type='text', ng-model='searchQuery')
+      span &nbsp;
+      button.btn.btn-primary(ng-click='search()') Search
+      span &nbsp;
+      button.btn(ng-click='reload()') Reload
+    div(ng-repeat='post in posts')
+      h3 {{post.title}}
+      p {{post.body}}
+  .span3.offset1
+    form
+    fieldset
+      legend New post
+      label Title
+      input(type='text', ng-model='currentPost.title', placeholder='... interesting title')
+      label Body
+      textarea(rows='3', ng-model='currentPost.body', placeholder='... blah blah')
+    button.btn(type='submit', ng-click='createPost()') Create
