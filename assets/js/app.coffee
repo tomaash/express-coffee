@@ -1,3 +1,46 @@
-$ ->
-  x = -> $('<h2>Express Coffee Template 1.4</h2>').prependTo('.right')
-  setTimeout x, 500
+#= require ../components/jquery/jquery
+#= require ../components/angular/angular
+#= require ../components/angular-resource/angular-resource
+#= require ../components/angular-ui/build/angular-ui
+#= require ../components/restangular/dist/restangular
+#= require ../components/underscore/underscore
+
+#= require_tree ./directives
+#= require_tree ./services
+#= require_tree ./controllers
+
+'use strict'
+
+# Declare app level module which depends on filters, and services
+
+myApp = angular.module('myApp', [
+    'myApp.filters'
+    'myApp.services'
+    'myApp.directives'
+    'ui'
+    'restangular'
+  ])
+
+myApp.config(['$routeProvider', '$locationProvider', ($routeProvider, $locationProvider) ->
+  $routeProvider
+  .when '/userpage',
+    templateUrl: 'partials/userpage'
+    controller: UsersCtrl
+
+  .when '/view1',
+    templateUrl: 'partials/view1'
+    controller: MyCtrl1
+
+  .when '/view2',
+    templateUrl: 'partials/view2'
+    controller: MyCtrl2
+
+  .otherwise redirectTo: '/userpage'
+
+  $locationProvider.html5Mode true
+])
+
+myApp.config(['RestangularProvider', (RestangularProvider) ->
+  RestangularProvider.setBaseUrl('/api')
+])
+

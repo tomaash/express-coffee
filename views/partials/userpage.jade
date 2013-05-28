@@ -1,0 +1,29 @@
+.row
+  .span7
+    h1 Listing users
+    table.table.table-striped
+      thead
+        th First Name
+        th Last Name
+        th Email
+        th Action
+      tbody
+        tr(ng-repeat='user in users')
+          td {{user.firstName}}
+          td {{user.lastName}}
+          td {{user.email}}
+          td
+            button.btn.btn-mini(ng-click='editUser(user)') Edit
+            span &nbsp;
+            button.btn.btn-mini.btn-danger(ng-click='deleteUser(user)') Delete
+  .span3.offset1
+    form
+    fieldset
+      legend {{editMode && 'Edit' || 'Create new'}} user
+      label First Name
+      input(type='text', ng-model='currentUser.firstName', placeholder='... like John')
+      label Last Name
+      input(type='text', ng-model='currentUser.lastName', placeholder='... like Snow')
+      label Email
+      input(type='text', ng-model='currentUser.email', placeholder='... like john@example.com')
+    button.btn(type='submit', ng-click='createUser()') {{editMode && 'Update' || 'Create'}}
