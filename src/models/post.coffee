@@ -3,7 +3,8 @@ jsonSelect = require 'mongoose-json-select'
 
 # Post model
 Post = new mongoose.Schema(
-  someField: String
+  title: String
+  body: String
 )
 
 Post.set 'toJSON',

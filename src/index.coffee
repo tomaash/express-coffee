@@ -34,9 +34,11 @@ else
 app.use assets()
 js.root = '/'
 css.root = '/'
+
 # Set the public folder as static assets.
 app.use express.static(process.cwd() + '/public')
 app.use '/components', express.static(process.cwd() + '/assets/components')
+
 # Express Session
 store = new express.session.MemoryStore
 app.use express.cookieParser()
@@ -52,12 +54,10 @@ app.set 'view engine', 'jade'
 app.use express.bodyParser()
 app.use express.methodOverride()
 
-
 #### Finalization
 # Initialize routes
 routes = require './routes'
 routes(app)
-
 
 # Export application object
 module.exports = app

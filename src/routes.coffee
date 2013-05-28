@@ -2,12 +2,18 @@
 handler = require('./handler')
 RailwayRoutes = require('railway-routes')
 
+Post = require './models/post'
+baucis = require 'baucis'
+
 module.exports = (app) ->
 
   map = new RailwayRoutes.Map(app, handler)
 
   map.root 'index#index'
   map.get '/partials/:name', 'index#partial'
+
+  map.get '/ping', 'ping#index'
+  map.all '/ping/pong/:id', 'ping#pong'
 
   map.get '/view1', 'index#index'
   map.get '/view2', 'index#index'
@@ -17,11 +23,17 @@ module.exports = (app) ->
 
   map.namespace 'api', (api) ->
     api.resources 'users'
-    api.resources 'posts'
 
-  map.all '/:controller'
-  map.all '/:controller/:action'
-  map.all '/:controller/:action/:id'
+  baucis.rest
+    singular: 'Post'
+
+  app.use('/api', baucis())
+
+# Generic routes not good with baucis
+
+#  map.all '/:controller'
+#  map.all '/:controller/:action'
+#  map.all '/:controller/:action/:id'
 
 #  # simple session authorization
 #  checkAuth = (req, res, next) ->
