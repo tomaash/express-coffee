@@ -15,8 +15,6 @@ module.exports = (app) ->
   map.get '/ping', 'ping#index'
   map.all '/ping/pong/:id', 'ping#pong'
 
-#  map.get '/view1', 'index#index'
-#  map.get '/view2', 'index#index'
   map.get '/users', 'index#index'
   map.get '/posts', 'index#index'
 
