@@ -43,6 +43,7 @@ test = (callback) ->
     './server'
   ]
   try
+    process.env.NODE_ENV='testing'
     cmd = which.sync 'mocha'
     spec = spawn cmd, options
     spec.stdout.pipe process.stdout
@@ -78,6 +79,7 @@ task 'test', 'Run Mocha tests', ->
 
 task 'dev', 'start dev env', ->
   # watch_coffee
+  process.env.NODE_ENV='development'
   options = ['-c', '-b', '-w', '-o', '.app', 'src']
   cmd = which.sync 'coffee'
   coffee = spawn cmd, options
@@ -99,6 +101,7 @@ task 'dev', 'start dev env', ->
 
 task 'debug', 'start debug env', ->
   # watch_coffee
+  process.env.NODE_ENV='development'
   options = ['-c', '-b', '-w', '-o', '.app', 'src']
   cmd = which.sync 'coffee'
   coffee = spawn cmd, options
@@ -117,9 +120,9 @@ task 'debug', 'start debug env', ->
   inspector.stdout.pipe process.stdout
   inspector.stderr.pipe process.stderr
   # run google chrome
-  chrome = spawn 'google-chrome', ['http://0.0.0.0:8080/debug?port=5858']
-  chrome.stdout.pipe process.stdout
-  chrome.stderr.pipe process.stderr
+#  chrome = spawn 'google-chrome', ['http://0.0.0.0:8080/debug?port=5858']
+#  chrome.stdout.pipe process.stdout
+#  chrome.stderr.pipe process.stderr
   log 'Debugging server', green
 
 option '-n', '--name [NAME]', 'name of model to `scaffold`'
