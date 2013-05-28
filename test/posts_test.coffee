@@ -4,16 +4,12 @@ Post = require process.cwd() + '/.app/models/post'
 app = require process.cwd() + '/.app'
 
 
-POST_DATA = {
-  "title":"SomeTitle",
-  "body":"body of post",
-  "url":"some url"
+INITIAL_DATA = {
+  "someField":"Some Data"
 }
 
-UPDATED_POST_DATA = {
-  "title":"Another title",
-  "body":"another body of post",
-  "url":"some another url"
+UPDATED_DATA = {
+  "someField":"Another data"
 }
 
 cleanDB = (done) ->
@@ -27,59 +23,59 @@ describe 'Post', ->
 
   it "should be created", (done) ->
     request(app)
-      .post("/posts")
-      .send(POST_DATA)
+      .post("/api/posts")
+      .send(INITIAL_DATA)
       .expect 201, (err, res) ->
-        res.body.should.include(POST_DATA)
-        res.body.should.have.property "_id"
-        res.body["_id"].should.be.ok
-        post_id = res.body["_id"]
+        res.body.should.include(INITIAL_DATA)
+        res.body.should.have.property "id"
+        res.body["id"].should.be.ok
+        post_id = res.body["id"]
         done()
 
   it "should be accessible by id", (done) ->
     request(app)
-      .get("/posts/#{post_id}")
+      .get("/api/posts/#{post_id}")
       .expect 200, (err, res) ->
-        res.body.should.include(POST_DATA)
-        res.body.should.have.property "_id"
-        res.body["_id"].should.be.eql post_id
+        res.body.should.include(INITIAL_DATA)
+        res.body.should.have.property "id"
+        res.body["id"].should.be.eql post_id
         done()
 
   it "should be listed in list", (done) ->
     request(app)
-      .get("/posts")
+      .get("/api/posts")
       .expect 200, (err, res) ->
         res.body.should.be.an.instanceof Array
         res.body.should.have.length 1
-        res.body[0].should.include(POST_DATA)
+        res.body[0].should.include(INITIAL_DATA)
         done()
 
   it "should be updated", (done) ->
     request(app)
-      .put("/posts/#{post_id}")
-      .send(UPDATED_POST_DATA)
+      .put("/api/posts/#{post_id}")
+      .send(UPDATED_DATA)
       .expect 200, (err, res) ->
-        res.body.should.include(UPDATED_POST_DATA)
+        res.body.should.include(UPDATED_DATA)
         done()
 
   it "should be persisted after update", (done) ->
     request(app)
-      .get("/posts/#{post_id}")
+      .get("/api/posts/#{post_id}")
       .expect 200, (err, res) ->
-        res.body.should.include(UPDATED_POST_DATA)
-        res.body.should.have.property "_id"
-        res.body["_id"].should.be.eql post_id
+        res.body.should.include(UPDATED_DATA)
+        res.body.should.have.property "id"
+        res.body["id"].should.be.eql post_id
         done()
 
   it "should be removed", (done) ->
     request(app)
-      .del("/posts/#{post_id}")
+      .del("/api/posts/#{post_id}")
       .expect 200, (err, res) ->
         done()
 
   it "should not be listed after remove", (done) ->
     request(app)
-      .get("/posts")
+      .get("/api/posts")
       .expect 200, (err, res) ->
         res.body.should.be.an.instanceof Array
         res.body.should.have.length 0

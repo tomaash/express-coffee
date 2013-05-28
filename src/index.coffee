@@ -32,8 +32,11 @@ else
 #### View initialization
 # Add Connect Assets.
 app.use assets()
+js.root = '/'
+css.root = '/'
 # Set the public folder as static assets.
 app.use express.static(process.cwd() + '/public')
+app.use '/components', express.static(process.cwd() + '/assets/components')
 # Express Session
 store = new express.session.MemoryStore
 app.use express.cookieParser()

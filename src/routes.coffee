@@ -1,39 +1,23 @@
-#### Routes
+#### Routes definition
+handler = require('./handler')
+RailwayRoutes = require('railway-routes')
 
 module.exports = (app) ->
 
-  handler = (ns, controller, action) ->
-    genericRouter = (req, res) ->
-      ctlFile = "./controllers/" + ns + req.param("controller") + "_controller"
-      try
-        genericAction = req.param("action") || 'index'
-        responseHandler = require(ctlFile)[genericAction]
-        throw new Error if !responseHandler
-      catch e
-        responseHandler = (req, res) ->
-          res.send "Handler not found for " + ns + req.param("controller") + "#" + req.param("action")
-          res.statusCode = 404
-      responseHandler req, res
-    handlerNotFound = (req, res) ->
-      res.send "Handler not found for " + ns + controller + "#" + action
-      res.statusCode = 404
-    try
-      ctlFile = "./controllers/" + ns + controller + "_controller"
-      responseHandler = require(ctlFile)[action]
-    if controller
-      return responseHandler or handlerNotFound
-    else
-      return genericRouter
-
-  RailwayRoutes = require('railway-routes')
   map = new RailwayRoutes.Map(app, handler)
 
   map.root 'index#index'
+  map.get '/partials/:name', 'index#partial'
+
+  map.get '/view1', 'index#index'
+  map.get '/view2', 'index#index'
+  map.get '/userpage', 'index#index'
 
   map.resource 'private'
-  map.resources 'users'
-  map.resources 'posts'
-  map.resources 'trips'
+
+  map.namespace 'api', (api) ->
+    api.resources 'users'
+    api.resources 'posts'
 
   map.all '/:controller'
   map.all '/:controller/:action'
