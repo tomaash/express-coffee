@@ -23,19 +23,23 @@ myApp = angular.module('myApp', [
 
 myApp.config(['$routeProvider', '$locationProvider', ($routeProvider, $locationProvider) ->
   $routeProvider
-  .when '/userpage',
-    templateUrl: 'partials/userpage'
+  .when '/users',
+    templateUrl: 'partials/users'
     controller: UsersCtrl
 
-  .when '/view1',
-    templateUrl: 'partials/view1'
-    controller: MyCtrl1
+  .when '/posts',
+    templateUrl: 'partials/posts'
+    controller: PostsCtrl
 
-  .when '/view2',
-    templateUrl: 'partials/view2'
-    controller: MyCtrl2
+#  .when '/view1',
+#    templateUrl: 'partials/view1'
+#    controller: MyCtrl1
+#
+#  .when '/view2',
+#    templateUrl: 'partials/view2'
+#    controller: MyCtrl2
 
-  .otherwise redirectTo: '/userpage'
+  .otherwise redirectTo: '/users'
 
   $locationProvider.html5Mode true
 ])
