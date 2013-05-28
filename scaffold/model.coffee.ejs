@@ -1,8 +1,14 @@
 mongoose = require 'mongoose'
+jsonSelect = require 'mongoose-json-select'
 
 # <%=: name | capitalize %> model
 <%=: name | capitalize %> = new mongoose.Schema(
   someField: String
 )
+
+<%=: name | capitalize %>.set 'toJSON',
+  virtuals: true
+
+<%=: name | capitalize %>.plugin(jsonSelect, '-_id');
 
 module.exports = mongoose.model '<%=: name | capitalize %>', <%=: name | capitalize %>

@@ -27,9 +27,9 @@ describe '<%=: name | capitalize %>', ->
       .send(INITIAL_DATA)
       .expect 201, (err, res) ->
         res.body.should.include(INITIAL_DATA)
-        res.body.should.have.property "_id"
-        res.body["_id"].should.be.ok
-        <%=: name %>_id = res.body["_id"]
+        res.body.should.have.property "id"
+        res.body["id"].should.be.ok
+        <%=: name %>_id = res.body["id"]
         done()
 
   it "should be accessible by id", (done) ->
@@ -37,8 +37,8 @@ describe '<%=: name | capitalize %>', ->
       .get("/<%=: name %>s/#{<%=: name %>_id}")
       .expect 200, (err, res) ->
         res.body.should.include(INITIAL_DATA)
-        res.body.should.have.property "_id"
-        res.body["_id"].should.be.eql <%=: name %>_id
+        res.body.should.have.property "id"
+        res.body["id"].should.be.eql <%=: name %>_id
         done()
 
   it "should be listed in list", (done) ->
@@ -63,8 +63,8 @@ describe '<%=: name | capitalize %>', ->
       .get("/<%=: name %>s/#{<%=: name %>_id}")
       .expect 200, (err, res) ->
         res.body.should.include(UPDATED_DATA)
-        res.body.should.have.property "_id"
-        res.body["_id"].should.be.eql <%=: name %>_id
+        res.body.should.have.property "id"
+        res.body["id"].should.be.eql <%=: name %>_id
         done()
 
   it "should be removed", (done) ->

@@ -1,88 +1,52 @@
-extends layout
-block content
-  .container
-    .span4
-      div.
-        <a href="http://www.flickr.com/photos/astrapica/2560897976/" title="Uk express... by astrapi, on Flickr"><img src="http://farm4.staticflickr.com/3049/2560897976_48257593b7.jpg" width="100%" height="120px" alt="Uk express..."></a>
-      a.button(href="https://github.com/twilson63/express-coffee/zipball/v1.3.0") Download
-      &nbsp;
-      a.button(href="https://github.com/twilson63/express-coffee") Source
-      :markdown
-        ### About
+// We want HTML5.
+!!! 5
 
-        This template was built to make it very easy to get up and going on small little prototypes and weekend projects.
+html(ng-app="myApp", lang="en")
+  head
+    // Lets set up our page a bit.
+    // ==========================================================================
+    title Angular Coffee Express
+    meta(http-equiv="Content-Type",content="text/html; charset=UTF-8")
+    meta(name="viewport", content="width=device-width, initial-scale=1.0")
+    meta(name="description", content="A simple template with Angular JS running through Express with Connect-Assets and a focus on Coffee Script for scripting, stylus for templating, and Stylus for stylesheets.")
+    meta(name="author", content="Andrew Hobden")
 
-        ### Contact Us
+    // HTML5 shim, because IE's are horrible.
+    //if lt IE 9
+      script(src='http://html5shim.googlecode.com/svn/trunk/html5.js')
+      != js("components/angular-ui/build/angular-ui-ieshiv.min")
 
-        Have questions, or would like to contribute?
+    // Include our Stylesheets. See /assets/css.
+    // ==========================================================================
+    != css("css/app")
 
-        * [Post an Issue](https://github.com/twilson63/express-coffee/issues)
-        * [Submit a pull request](https://github.com/twilson63/express-coffee)
-        * Follow Us on twitter! [@jackhq](http://twitter.com/jackhq)
-    .span7
-      :markdown
-        The express-coffee template is now upgraded to use node version 0.8.x+ and refined to utilized a few new features to get up and running.
+    // The content of our page.
+    // ==========================================================================
+    body
+      // Containers provide us with fluid layouts. If you resize the browser window, it follows!
+      .container
+        // A floating navbar, snazzy!
+        .three.columns.sidebar
+          nav
+            h3#logo Angular Coffeee Express
+            ul
+              li
+                a(ng-href='/userpage') Users
+              li
+                a(ng-href='/view1') View 1
+              li
+                a(ng-href='/view2') View 2
 
-        # Features
+        .twelve.columns.offset-by-one.content(ng-view)
+          // Loading Screen
+          // ========================================================================
+          p Loading the Application...
 
-        ### Automated Compile Step
+      // Demonstrating filters and services with a simple version example.
+      .container
+        .three.columns.offset-by-fourteen
+          App Version: v
+          span(app-version)
 
-        express-coffee template is made to quickly start putting together an application/prototype.  
-
-        Now you can run cake dev and when every coffee file is changed it will rebuild the app.
-        
-        Also, it includes supervisor, which will restart you application everytime you change your views or js files.
-
-            cake dev
-
-
-        ### Rails-like Asset Pipeline
-
-        express-coffee template comes ready to go with connect-assets a rails like asset pipeline.  You can add your css and js to the assets folder.  Then in jade you can reference your assets using a couple of helper methods.
-
-             != css('mycss') 
-             #= Pull from /assets/css/mycss.styl
-             != js('app') 
-             #= Pull from /assets/js/app.coffee or app.js
-
-        See [connect-assets](http://github.com/TrevorBurnham/connect-assets) for more information
-
-        ### Jade as the default template language
-
-        express-coffee template has switched to jade as the default template language.  It seems to be the clear winner and the most mature at this point.  The rich featureset of integrating markdown and coffeescript and other helpers is big plus for getting things up fast.
-
-            extends layout
-            block content
-              .container
-                .four.columns
-                  :markdown
-                    # Hello World
-
-        ### Skeleton CSS as the default responsive grid
-
-        skeleton is clean and basic and can easily be adjusted.
-
-        ### Mocha and Request for testing
-        
-        mocha is an extremely powerful and easy to use testing framework
-        
-        see [http://visionmedia.github.com/mocha/](http://visionmedia.github.com/mocha/)
-
-            describe 'Sample test', ->
-              it 'should be true', ->
-                true.should.equal true
-
-        to run mocha
-
-            cake test
-
-        ### Setup to deploy to heroku
-        
-            rm -rf .git
-            git init
-            echo 'node_modules' >> '.gitignore'
-            git add .
-            git commit -am "first commit"
-            heroku create
-            git push heroku master
-            heroku open
+  // Include our Scripts. See /assets/js.
+  != js("js/app")
